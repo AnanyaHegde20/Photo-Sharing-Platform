@@ -27,13 +27,15 @@ export async function getCurrentProfile(): Promise<AuthProfile | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase
+  const { data: profile, error } = await supabase
     .from("profiles")
-    .select("*")
+    .select("id, full_name, role, created_at, updated_at")
     .eq("id", user.id)
     .single();
 
-  return profile;
+  if (error || !profile) return null;
+
+  return profile as unknown as AuthProfile;
 }
 
 export async function requireAuth(): Promise<AuthUser> {

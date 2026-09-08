@@ -35,7 +35,10 @@ export async function getAdminEvents(): Promise<
     .eq("created_by", profile.id)
     .order("created_at", { ascending: false });
 
-  if (error || !events) return [];
+  if (error || !events) {
+    console.error("Failed to fetch events:", error);
+    return [];
+  }
 
   const typedEvents = events as unknown as Array<{
     id: string;
@@ -232,11 +235,13 @@ export async function createEvent(
     .insert(newEvent);
 
   if (error) {
+    console.error("Failed to create event:", error);
     return { success: false, error: "Failed to create event. Please try again." };
   }
 
+  revalidatePath("/admin/events");
   revalidatePath("/admin");
-  redirect("/admin");
+  redirect("/admin/events");
 }
 
 export async function updateEvent(

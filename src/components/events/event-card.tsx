@@ -1,6 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { deleteEvent } from "@/lib/actions/events";
 
 interface EventCardProps {
   id: string;
@@ -13,12 +19,30 @@ interface EventCardProps {
 }
 
 export function EventCard({
+  id,
   name,
   description,
   event_date,
   member_count,
   href,
 }: EventCardProps) {
+  const router = useRouter();
+  const [deleting, setDeleting] = useState(false);
+
+  async function handleDelete(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+    setDeleting(true);
+    const result = await deleteEvent(id);
+    if (result.success) {
+      router.refresh();
+    } else {
+      alert(result.error || "Failed to delete event");
+      setDeleting(false);
+    }
+  }
+
   return (
     <Link href={href} className="block group">
       <Card className="transition-all hover:shadow-md hover:border-muted-foreground/20 h-full">
@@ -27,15 +51,29 @@ export function EventCard({
             <CardTitle className="text-base leading-snug group-hover:text-primary transition-colors">
               {name}
             </CardTitle>
-            {event_date && (
-              <Badge variant="secondary" className="shrink-0 text-xs">
-                {new Date(event_date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </Badge>
-            )}
+            <div className="flex items-center gap-2 shrink-0">
+              {event_date && (
+                <Badge variant="secondary" className="text-xs">
+                  {new Date(event_date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Badge>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={deleting}
+                onClick={handleDelete}
+                className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                aria-label={`Delete ${name}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4">
+                  <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>

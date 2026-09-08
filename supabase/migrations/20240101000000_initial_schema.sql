@@ -174,13 +174,17 @@ create trigger galleries_updated_at
   for each row execute function public.update_updated_at();
 
 -- Helper: get current user's role
+-- Returns text to avoid enum comparison issues in RLS policies.
+-- SECURITY DEFINER + SET search_path = '' prevents infinite recursion
+-- (policies on profiles call get_user_role which queries profiles).
 create or replace function public.get_user_role()
-returns public.user_role
+returns text
 language sql
 security definer
+set search_path = ''
 stable
 as $$
-  select role from public.profiles where id = auth.uid();
+  select role::text from public.profiles where id = auth.uid();
 $$;
 
 comment on function public.get_user_role() is 'Returns the role of the currently authenticated user.';
