@@ -552,12 +552,6 @@ Demo Gallery:
 
 ---
 
-## Screenshots
 
-> Screenshots will be added after final production verification.
 
----
 
-## License
-
-This project was built as part of the TrizenAI Full Stack Internship Challenge.
