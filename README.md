@@ -462,7 +462,7 @@ Password: test@123
 
 ### Demo Gallery
 ```
-Gallery URL: https://photo-sharing-platform.vercel.app/gallery/demo-gallery-wedding
+Gallery URL: https://photo-sharing-platform-psi.vercel.app/gallery/demo-gallery-wedding
 Gallery PIN: 123456
 ```
 
@@ -480,7 +480,7 @@ Gallery PIN: 123456
 
 ## Live Application
 
-**URL**: https://photo-sharing-platform.vercel.app
+**URL**: https://photo-sharing-platform-psi.vercel.app
 
 > Deployed on Vercel with Supabase backend.
 
