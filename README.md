@@ -82,7 +82,7 @@ Customer views selected photos
 |---------|---------------|
 | Authentication | Supabase Auth with `@supabase/ssr` for server-side sessions |
 | Role-Based Access Control | `ADMIN` and `TEAM_MEMBER` roles enforced server-side |
-| Row Level Security | 27 RLS policies across 6 database tables |
+| Row Level Security | Policies defined but currently disabled due to recursion issue; authorization enforced at application level |
 | Event Ownership | All event mutations verify `created_by` matches authenticated user |
 | Team Membership | Photo uploads verified against `event_members` table |
 | Private Storage | Supabase Storage `event-photos` bucket — not publicly accessible |
@@ -116,7 +116,7 @@ Customer views selected photos
 - **Supabase** — Auth, PostgreSQL, Storage
 
 ### Database
-- **PostgreSQL** via Supabase — 6 tables, 2 enums, 27 RLS policies, 13 indexes, 3 functions
+- **PostgreSQL** via Supabase — 6 tables, 2 enums, 13 indexes, 3 functions (RLS policies defined but disabled)
 
 ### Authentication
 - **Supabase Auth** — Email/password authentication with SSR session management
@@ -168,7 +168,7 @@ requireAdmin() — authentication check
     |
 Event ownership verification
     |
-Supabase database query (with RLS)
+Supabase database query (with app-level RBAC)
     |
 Response
     |
@@ -498,10 +498,10 @@ Gallery PIN: 123456
 | Supabase | CONNECTED (live project configured and tested) |
 | Storage | CONNECTED (event-photos bucket active with test uploads) |
 | Authentication | VERIFIED (Admin and Team Member login working) |
-| RBAC | VERIFIED (server-side role checks + RLS enforced) |
+| RBAC | VERIFIED (server-side role checks enforced; RLS disabled due to recursion) |
 | Gallery Publishing | VERIFIED (demo gallery published with PIN) |
 | PIN Protection | VERIFIED (bcrypt + HMAC cookies) |
-| Production Deployment | PENDING |
+| Production Deployment | VERIFIED (live at photo-sharing-platform-psi.vercel.app) |
 | Responsive UI | IMPLEMENTED |
 | Security Verification | PASS (headers, no secrets, no role escalation) |
 
@@ -522,9 +522,9 @@ Gallery PIN: 123456
 | PIN protection | bcrypt hashing, server-side verification, HMAC-signed cookies | IMPLEMENTED |
 | Customer no account | Public gallery access via URL + PIN — no auth required | IMPLEMENTED |
 | Object storage | Supabase Storage `event-photos` bucket — private with signed URLs | IMPLEMENTED |
-| Authorization (RBAC) | Server-side role checks + RLS policies | IMPLEMENTED |
+| Authorization (RBAC) | Server-side role checks enforced; RLS policies defined but disabled | IMPLEMENTED |
 | Testing | Vitest (unit) + Playwright (E2E) | IMPLEMENTED |
-| Deployment target | Vercel | PENDING |
+| Deployment target | Vercel | IMPLEMENTED |
 
 ---
 

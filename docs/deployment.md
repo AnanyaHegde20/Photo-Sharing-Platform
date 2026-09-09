@@ -3,6 +3,7 @@
 ## Deployment Target
 
 **Platform:** Vercel
+**Live URL:** https://photo-sharing-platform-psi.vercel.app
 **Framework:** Next.js (auto-detected by Vercel)
 
 ---
@@ -156,27 +157,27 @@ Verify in browser DevTools > Network > Response Headers:
 
 ## Production Checklist
 
-- [ ] Supabase project configured and running
-- [ ] Database migrations applied (both files)
-- [ ] Storage bucket `event-photos` created and private
-- [ ] RLS enabled on all 6 tables
-- [ ] Storage policies applied
-- [ ] Authentication enabled (Email/Password)
-- [ ] Environment variables configured in Vercel:
-  - [ ] `NEXT_PUBLIC_SUPABASE_URL`
-  - [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-  - [ ] `GALLERY_COOKIE_SECRET`
-- [ ] Production build succeeds
-- [ ] Landing page loads
-- [ ] Login/register forms work
-- [ ] Admin can create events
-- [ ] Team Member can upload photos
-- [ ] Admin can curate and publish galleries
-- [ ] Customer can access gallery with PIN
-- [ ] Gallery cookie is HttpOnly and Secure
-- [ ] Security headers present
+- [x] Supabase project configured and running
+- [x] Database migrations applied (both files)
+- [x] Storage bucket `event-photos` created and private
+- [ ] RLS enabled on all 6 tables — DISABLED (infinite recursion in `get_user_role()`; app-level RBAC enforced)
+- [x] Storage bucket policies applied
+- [x] Authentication enabled (Email/Password)
+- [x] Environment variables configured in Vercel:
+  - [x] `NEXT_PUBLIC_SUPABASE_URL`
+  - [x] `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - [x] `GALLERY_COOKIE_SECRET`
+- [x] Production build succeeds
+- [x] Landing page loads
+- [x] Login/register forms work
+- [x] Admin can create events
+- [x] Team Member can upload photos
+- [x] Admin can curate and publish galleries
+- [x] Customer can access gallery with PIN
+- [x] Gallery cookie is HttpOnly and Secure
+- [x] Security headers present
 - [ ] Responsive UI verified (mobile/tablet/desktop)
-- [ ] No secrets in client-side code
+- [x] No secrets in client-side code
 
 ---
 
